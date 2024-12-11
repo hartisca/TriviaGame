@@ -9,7 +9,7 @@ function Borrar() {
       const response = await fetch(`${baseUrl}?limit=1`)
       const quest = await response.json()
 
-      setQuestion(quest[0])      
+      setQuestion(quest[0])
     }
     fetchQuestion()
   },[])

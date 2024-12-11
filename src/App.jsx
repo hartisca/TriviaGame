@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PlayScreen from './pages/PlayScreen' 
 import './App.css';
 
 
@@ -10,8 +11,9 @@ function App() {
 
   return (
     <>
-      <h1>Trivia Game</h1>      
-      
+      <div className='contentWrap'>
+        <PlayScreen />
+      </div>      
     </>
   );
 }

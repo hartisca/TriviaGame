@@ -1,16 +1,22 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Red Hat Display", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(31, 31, 31, 0.829);
-  background-color: #e4ddd4;
+  background-color: var(--background);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --background: #e4ddd4;
+  --text: #423a3a;
+  --secondBackground: #A5D8FF;
+  --white: #ffffff;
+  --black: #000000;
 }
 
 *{ margin: 0; padding: 0; }
