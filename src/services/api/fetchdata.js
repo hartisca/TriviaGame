@@ -1,5 +1,4 @@
-
-const baseUrl = 'https://the-trivia-api.com/v2/questions'; // Definir la URL base aquí
+const baseUrl = 'https://the-trivia-api.com/v2/questions';
 
 const fetchQuestion = async (limit = 30) => {
   try {

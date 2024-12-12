@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import fetchQuestion from '../services/api/fetchdata';
+import Count from '../components/Count';
 
 // Función para barajar un array
 const shuffleArray = (array) => {
@@ -7,51 +8,73 @@ const shuffleArray = (array) => {
 };
 
 function PlayScreen() {
-  const [question, setQuestion] = useState('');
+  const [questions, setQuestions] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
 
   useEffect(() => {
-    const getQuestion = async () => {
+    const getQuestions = async () => {
       const quest = await fetchQuestion(30);
       if (quest) {
-        setQuestion(quest[0]);
-        console.log(quest)      
+        setQuestions(quest);
       }
     };
-    getQuestion();   
+    getQuestions();
   }, []);
 
-  //Mostrar mensaje de cargando si no hay pregunta
-  if (!question) {
-    return <div>Cargando pregunta...</div>;
+  if (questions.length === 0) {
+    return <div>Cargando preguntas...</div>;
   }
 
-  //Mezclar las correctas e incorrectas
+  // Obtener la pregunta y respuestas actuales
+  const currentQuestion = questions[currentIndex];
   const answers = [
-    question.correctAnswer,
-    ...question.incorrectAnswers
+    currentQuestion.correctAnswer,
+    ...currentQuestion.incorrectAnswers
   ];
 
-  // Barajamos las respuestas
   const shuffledAnswers = shuffleArray(answers);
 
-  return ( 
+  const handleClick = (selectedAnswer) => {
+    if (selectedAnswer === currentQuestion.correctAnswer) {
+      setCorrectCount(correctCount + 1);
+    } else {
+      setIncorrectCount(incorrectCount + 1);
+    }
+
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      alert(`Juego terminado. Correctas: ${correctCount}, Incorrectas: ${incorrectCount}`);
+    }
+  };
+
+  return (
     <>
       <div className="areaFlex">
         <div className="questionDiv">
-          <p>{question?.question?.text || 'Cargando pregunta...'}</p>
-        </div>        
+          <p>{currentQuestion?.question?.text || 'Cargando pregunta...'}</p>
+        </div>
       </div>
       <div className="areaFlex">
-      <ul className="optionList">
+        <ul className="optionList">
           {shuffledAnswers.map((answer, index) => (
-            <li key={index} className="questionOption">
+            <li
+              key={index}
+              className="questionOption"
+              onClick={() => handleClick(answer)}
+            >
               {answer}
             </li>
           ))}
         </ul>
-      </div>
-    </>    
-   );
+        <div className='aciertosFallos'>
+          <Count aciertos={correctCount} fallos={incorrectCount}/>
+        </div>     
+      </div>      
+    </>
+  );
 }
 
 export default PlayScreen;
