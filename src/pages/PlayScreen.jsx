@@ -52,12 +52,11 @@ function PlayScreen() {
 
   return (
     <>
-      <div className="areaFlex">
+      <div className="container">
+      <div className="mainArea">
         <div className="questionDiv">
           <p>{currentQuestion?.question?.text || 'Cargando pregunta...'}</p>
         </div>
-      </div>
-      <div className="areaFlex">
         <ul className="optionList">
           {shuffledAnswers.map((answer, index) => (
             <li
@@ -69,10 +68,11 @@ function PlayScreen() {
             </li>
           ))}
         </ul>
-        <div className='aciertosFallos'>
-          <Count aciertos={correctCount} fallos={incorrectCount}/>
-        </div>     
-      </div>      
+      </div>
+        <div className="aciertosFallos">
+          <Count aciertos={correctCount} fallos={incorrectCount} />
+        </div>
+      </div>
     </>
   );
 }

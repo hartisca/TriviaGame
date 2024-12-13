@@ -3,8 +3,8 @@ function Count({aciertos, fallos}) {
   return ( 
     <>
       <div>
-        <p>Aciertos: {aciertos}</p>
-        <p>Fallos: {fallos}</p>
+        <p>Right: {aciertos}</p>
+        <p>Wrong: {fallos}</p>
       </div>      
     </>
    );

@@ -41,24 +41,33 @@
   color: #888;
 }
 
-.contentWrap {
+.contentWrap{
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  margin-top: -12%;
-  flex-direction: column;
+  min-height: 35vw;
 }
 
-.areaFlex {
+/* PlayScreen css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0px;
+  width: 100%;   
+}
+
+.mainArea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  justify-content: center;
+  width: 75%;
 }
 
 .questionDiv {
-  width: 60%;
+  width: 75%;
   min-height: 100px;
   display: flex;
   align-items: center;
@@ -71,33 +80,41 @@
   word-wrap: break-word;
   border: 1px solid #ccc;
   border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 .optionList {
   list-style: none;
-  margin-top: 20px;
-  width: 55%;
+  width: 65%;
   padding: 0;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .questionOption {
-  background-color: var(--secondBackground);  
-  margin-top: 10px;
+  background-color: var(--secondBackground);
   border-radius: 5px;
-  padding: 5px 0px 5px 0px;
+  padding: 5px 0;
   border: 1px solid var(--black);
   text-align: center;
   cursor: pointer;
+  
 }
 
-.questionOption:hover{
+.questionOption:hover {
   background-color: #7bb3d8;
 }
 
+/* Contador componente */
+
 .aciertosFallos {
   border: 1px solid black;
-  padding: 10px 10px 10px 10px;
+  padding: 20px 0px 20px 15px;
   border-radius: 8px;
+  background-color: var(--white); 
+  text-align: start;
+  min-width: 150px;
+  height: fit-content;
+  align-self: flex-end;
 }
