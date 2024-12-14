@@ -118,3 +118,19 @@
   height: fit-content;
   align-self: flex-end;
 }
+
+.aciertosFallos p{
+  font-weight: bold;
+}
+
+/*Timer componente */
+
+.timerContainer {
+  background-color: var(--white);
+  border: 1px solid black;
+  padding: 8px 20px 8px 20px;
+  border-radius: 8px;
+  height: fit-content;
+  margin-top: 2.5%;
+  font-weight: bold;
+}

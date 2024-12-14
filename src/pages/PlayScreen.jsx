@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import fetchQuestion from '../services/api/fetchdata';
 import Count from '../components/Count';
+import Timer from '../components/Timer';
 
 // Función para barajar un array
 const shuffleArray = (array) => {
@@ -24,7 +25,7 @@ function PlayScreen() {
   }, []);
 
   if (questions.length === 0) {
-    return <div>Cargando preguntas...</div>;
+    return <div>Loading questions...</div>;
   }
 
   // Obtener la pregunta y respuestas actuales
@@ -53,22 +54,25 @@ function PlayScreen() {
   return (
     <>
       <div className="container">
-      <div className="mainArea">
-        <div className="questionDiv">
-          <p>{currentQuestion?.question?.text || 'Cargando pregunta...'}</p>
+        <div className="timerContainer">
+          <Timer />
         </div>
-        <ul className="optionList">
-          {shuffledAnswers.map((answer, index) => (
-            <li
-              key={index}
-              className="questionOption"
-              onClick={() => handleClick(answer)}
-            >
-              {answer}
-            </li>
-          ))}
-        </ul>
-      </div>
+        <div className="mainArea">
+          <div className="questionDiv">
+            <p>{currentQuestion?.question?.text || 'Loading.'}</p>
+          </div>
+          <ul className="optionList">
+            {shuffledAnswers.map((answer, index) => (
+              <li
+                key={index}
+                className="questionOption"
+                onClick={() => handleClick(answer)}
+              >
+                {answer}
+              </li>
+            ))}
+          </ul>
+        </div>
         <div className="aciertosFallos">
           <Count aciertos={correctCount} fallos={incorrectCount} />
         </div>
