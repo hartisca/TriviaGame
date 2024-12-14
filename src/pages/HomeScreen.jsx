@@ -13,6 +13,7 @@ function HomeScreen() {
     <>
       <section className="HomeSection">
         <img src={logo} alt="Quizzbro logo" width="550px" />
+        <p>Rules: </p>
         <Button text={"Start Playing"} onClick={handleStartPlaying} />
       </section>      
     </>    

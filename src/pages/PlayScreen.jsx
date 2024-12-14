@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import fetchQuestion from '../services/api/fetchdata';
 import Count from '../components/Count';
 import Timer from '../components/Timer';
+import Marks from '../components/Marks';
 
 // Función para barajar un array
 const shuffleArray = (array) => {
@@ -54,9 +55,15 @@ function PlayScreen() {
   return (
     <>
       <div className="container">
-        <div className="timerContainer">
-          <Timer />
+        <div className='leftContainer'>
+           <div className="timerContainer">
+            <Timer />          
+          </div>
+          <div>
+            <Marks />
+          </div>
         </div>
+       
         <div className="mainArea">
           <div className="questionDiv">
             <p>{currentQuestion?.question?.text || 'Loading.'}</p>
