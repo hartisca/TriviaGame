@@ -17,6 +17,7 @@
   --secondBackground: #A5D8FF;
   --white: #ffffff;
   --black: #000000;
+  --border: rgba(180, 180, 180, 0.911);
 }
 
 *{ margin: 0; padding: 0; }

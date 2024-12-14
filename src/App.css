@@ -45,7 +45,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 35vw;
+  min-height: 25vw;
 }
 
 /* PlayScreen css */
@@ -81,6 +81,8 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   margin-bottom: 20px;
+  font-size: 18px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .optionList {
@@ -90,16 +92,16 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 20px;
 }
 
 .questionOption {
   background-color: var(--secondBackground);
   border-radius: 5px;
   padding: 5px 0;
-  border: 1px solid var(--black);
+  border: 1px solid var(--border);
   text-align: center;
-  cursor: pointer;
-  
+  cursor: pointer;  
 }
 
 .questionOption:hover {
@@ -109,7 +111,7 @@
 /* Contador componente */
 
 .aciertosFallos {
-  border: 1px solid black;
+  border: 1px solid var(--border);
   padding: 20px 0px 20px 15px;
   border-radius: 8px;
   background-color: var(--white); 
@@ -127,10 +129,70 @@
 
 .timerContainer {
   background-color: var(--white);
-  border: 1px solid black;
+  border: 1px solid var(--border);
   padding: 8px 20px 8px 20px;
   border-radius: 8px;
   height: fit-content;
   margin-top: 2.5%;
   font-weight: bold;
+  width: 10%;
+}
+
+/* Header */
+
+.headerNav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;  
+}
+
+.titleContainer {
+  flex: 1;
+  text-align: center;
+}
+
+.titleContainer h1 {
+  font-size: 50px;
+  background: linear-gradient(90deg, #888, #7bb3d8);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.profileContainer {
+  position: relative;
+}
+
+.dropDownMenu{
+  position: absolute;
+  left: -3.5rem;
+  top: 3.9rem;
+  width: 11rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--white);
+  border-radius: 5px;
+  text-align: start;
+}
+
+.dropDownMenu ul {
+  list-style: none;
+}
+.dropDownMenu ul li {
+  cursor: pointer;
+  border-radius: 0.5rem;
+  padding: 0.2rem;
+  font-size: 1.05rem;
+}
+.dropDownMenu ul li:hover{
+  background-color: #e5e7eb;
+}
+.profilePicture {
+  width: 40px;
+  border: 1px solid black;
+  border-radius: 50px;
+  padding: 5px;
+  object-fit: cover;
+  box-sizing: content-box;
+  cursor: pointer;
 }

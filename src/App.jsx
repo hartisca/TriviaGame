@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import PlayScreen from './pages/PlayScreen' 
 import './App.css';
+import Header from './components/ui/Header';
 
 function App() {  
 
@@ -10,6 +11,7 @@ function App() {
 
   return (
     <>
+      <Header />
       <div className='contentWrap'>
         <PlayScreen />
       </div>      
