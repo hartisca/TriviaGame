@@ -129,7 +129,7 @@
 .leftContainer {
   display: flex;
   flex-direction: column;
-  gap: 6rem;  
+  gap: 8rem;  
 }
 
 .listaCategorias{
@@ -143,6 +143,10 @@
 
 .listaCategorias li {
   margin-top: 5px;  
+}
+
+.listaCategorias .done {
+  text-decoration: line-through;
 }
 
 /*Timer componente */
