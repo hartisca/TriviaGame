@@ -32,15 +32,28 @@ function PlayScreen() {
     getQuestions();
   }, []);
 
-  const fetchHardAndUpdateCategory = async () => {
-    const availableCategories = categories.filter((cat) => !cat.done);
-    if (availableCategories.length === 0) {
-      alert("Has ganado!");
-      return;
-    }
+ 
 
+  const updateCategories = async () => {    
+
+    const updatedCategories = categories.map((cat) =>
+      cat.name.toLowerCase() === hardQuestion.category.toLowerCase() ||
+      cat.aliases.some((alias) => alias.toLowerCase() === hardQuestion.category.toLowerCase())
+        ? { ...cat, done: true }
+        : cat
+    );
+    setCategories(updatedCategories);
+    //Comprobación de si quedan categorias o no
+    const remainingCategories = updatedCategories.filter((cat) => !cat.done);
+    if (remainingCategories.length === 0) {
+      alert("Has ganado!");
+      //añadir navigate a clasificacion
+  }
+  }
+
+  const fetchHard = async () => {  
     const hardQuestionData = await fetchHardQuestion(
-      availableCategories.map((cat) => cat.name)
+      categories.filter((cat) => !cat.done).map((cat) => cat.aliases[0])
     );
 
     if (hardQuestionData) {
@@ -62,17 +75,9 @@ function PlayScreen() {
   const handleClick = (selectedAnswer) => {
     if (hardQuestion) {
       // Evaluar respuesta de la pregunta difícil
-      if (selectedAnswer === hardQuestion.correctAnswer) {
-        setCorrectCount((prev) => prev + 1);
-  
+      if (selectedAnswer === hardQuestion.correctAnswer) { 
         // Actualizar la categoría como "done"
-        const updatedCategories = categories.map((cat) =>
-          cat.name.toLowerCase() === hardQuestion.category.toLowerCase() ||
-          cat.aliases.some((alias) => alias.toLowerCase() === hardQuestion.category.toLowerCase())
-            ? { ...cat, done: true }
-            : cat
-        );
-        setCategories(updatedCategories);        
+        updateCategories()        
       } else {
         setIncorrectCount((prev) => prev + 1);
       }
@@ -87,7 +92,7 @@ function PlayScreen() {
   
           // Revisar si es momento de hacer una pregunta difícil
           if (newCorrectCount % 3 === 0) {
-            fetchHardAndUpdateCategory();
+            fetchHard();
           }
   
           return newCorrectCount;
