@@ -16,9 +16,7 @@ function PlayScreen() {
   const [incorrectCount, setIncorrectCount] = useState(0);  
   const [hardQuestion, setHardQuestion] = useState(null);
   const navigate = useNavigate()
-  const timeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });
-
-  
+  const timeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });  
 
   const [categories, setCategories] = useState([
     { name: "Arts & Literature", done: false, aliases: ["arts", "literature", "arts_and_literature", "novels"] },
@@ -51,6 +49,7 @@ function PlayScreen() {
         : cat
     );
     setCategories(updatedCategories);
+    
     //Comprobación de si quedan categorias o no
     const remainingCategories = updatedCategories.filter((cat) => !cat.done);
     if (remainingCategories.length === 0) {

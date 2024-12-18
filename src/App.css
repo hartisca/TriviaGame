@@ -224,3 +224,48 @@
   box-sizing: content-box;
   cursor: pointer;
 }
+
+/* Tabla Clasificaciones */
+
+.classification {
+  display: flex;
+  flex-direction: column;
+  min-width: 800px;  
+  justify-content: space-between;
+  margin-top: -50px;
+  margin-left: -45px;
+}
+
+.classification h2 {
+  margin-bottom: 30px;  
+  font-size: 32px;
+}
+.classification table {
+  border: 1px solid var(--border);
+  min-height: fit-content;    
+  border-collapse: collapse;
+  overflow: hidden;
+}
+.classification table th {
+  background-color: var(--black);
+  height: 50px;  
+  color: #ccc;
+  border: solid 1px var(--black);
+}
+.classification tbody tr td {
+  border-right: solid 1px var(--border);
+  padding: 0;
+  box-sizing: content-box;
+}
+.classification tbody tr:nth-child(odd){
+  background-color: #e9cfad;
+}
+
+.imageTable{
+  width: 45px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  object-fit: cover;
+  box-sizing: content-box;
+  padding: 5px;
+}
