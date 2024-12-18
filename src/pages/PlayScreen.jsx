@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchQuestion, fetchHardQuestion } from '../services/api/fetchdata';
 import Count from '../components/Count';
 import Timer from '../components/Timer';
 import Marks from '../components/Marks';
+import { useNavigate } from 'react-router-dom';
 
 const shuffleArray = (array) => {
   return array.sort(() => Math.random() - 0.5);
@@ -14,6 +15,11 @@ function PlayScreen() {
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);  
   const [hardQuestion, setHardQuestion] = useState(null);
+  const navigate = useNavigate()
+  const timeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });
+
+  
+
   const [categories, setCategories] = useState([
     { name: "Arts & Literature", done: false, aliases: ["arts", "literature", "arts_and_literature", "novels"] },
     { name: "General Knowledge", done: false, aliases: ["general_knowledge"] },
@@ -22,17 +28,19 @@ function PlayScreen() {
     { name: "Science", done: false, aliases: ["science"] },
   ]);
 
-  useEffect(() => {
+  useEffect(() => {     
     const getQuestions = async () => {
       const quest = await fetchQuestion(30);
       if (quest) {
         setQuestions(quest);
       }
     };
-    getQuestions();
+    getQuestions();    
   }, []);
 
- 
+  const updateTime = (currentTime) => {
+    timeRef.current = currentTime;
+  }; 
 
   const updateCategories = async () => {    
 
@@ -46,9 +54,15 @@ function PlayScreen() {
     //Comprobación de si quedan categorias o no
     const remainingCategories = updatedCategories.filter((cat) => !cat.done);
     if (remainingCategories.length === 0) {
-      alert("Has ganado!");
-      //añadir navigate a clasificacion
-  }
+      const finalTime = timeRef.current;
+      const formattedTime = `${String(finalTime.hours).padStart(2, "0")}:${String(
+        finalTime.minutes
+      ).padStart(2, "0")}:${String(finalTime.seconds).padStart(2, "0")}`;
+
+      alert(`Has ganado! Tiempo: ${formattedTime}`);
+      localStorage.setItem("finalTime", JSON.stringify(finalTime));
+      navigate("/classification");
+    }
   }
 
   const fetchHard = async () => {  
@@ -76,7 +90,7 @@ function PlayScreen() {
     if (hardQuestion) {
       // Evaluar respuesta de la pregunta difícil
       if (selectedAnswer === hardQuestion.correctAnswer) { 
-        // Actualizar la categoría como "done"
+        // Llamar actualización categorias
         updateCategories()        
       } else {
         setIncorrectCount((prev) => prev + 1);
@@ -121,7 +135,7 @@ function PlayScreen() {
       <div className="container">
         <div className="leftContainer">
           <div className="timerContainer">
-            <Timer />
+            <Timer onTimeUpdate={updateTime} />
           </div>
           <div>
             <Marks categories={categories} />

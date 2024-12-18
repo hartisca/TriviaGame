@@ -1,7 +1,7 @@
 const baseUrl = 'https://the-trivia-api.com/v2/questions';
 
 export const fetchQuestion = async (limit = 30) => {
-  
+  console.log('normal fetch')
   try {
     const response = await fetch(`${baseUrl}?difficulties=easy,medium&limit=${limit}`);
     if (!response.ok) {
