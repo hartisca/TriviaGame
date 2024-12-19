@@ -1,13 +1,15 @@
 import { useRef, useState, useEffect } from "react";
 import profileDefault from "../../assets/usuario.png";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const menus = ["Profile", "Records", "Logout"]
-
+  const user = false
   const [ open, setOpen ] = useState(false)
 
   const menuRef = useRef(null)
   const imgRef = useRef(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -30,9 +32,10 @@ function Header() {
   return ( 
     <nav className="headerNav">
       <div className="titleContainer">
-        <h1>Quizzbro</h1>
+        <h1 onClick={() => navigate("/")}>Quizzbro</h1>
       </div>
-      <div className="profileContainer">
+      {
+        user ? (<div className="profileContainer">
         <img src={profileDefault} alt="Profile picture" 
         className="profilePicture"
         ref={ imgRef }
@@ -49,7 +52,9 @@ function Header() {
           </ul>
         </div>
        )}
-      </div>      
+      </div> ) : (<a className="registerButton" onClick={() => navigate("/register")}>Register</a>)
+      }
+           
     </nav>    
    );
 }
