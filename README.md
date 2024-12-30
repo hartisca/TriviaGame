@@ -1,1 +1,1 @@
-#Trivia Game made with React and firebase
+#Trivia Game made with React and supabase
