@@ -16,12 +16,12 @@ export const signUpWithOtp = async (email) => {
 }
 
 export const checkProfile = async (user) =>{
-  console.log('Comprobación de usuario en checkProfile', user.id)
+  
   if (!user) {
     toast.error("User is not authenticated.");
     return;
   }
-
+  
   try {
     const { data, error } = await supabase
       .from('profiles')
@@ -32,10 +32,11 @@ export const checkProfile = async (user) =>{
       if (error && error.code !== "PGRST116") { // Código PGRST116: "No rows found"
         throw new Error(error.message);
       }
-  
+      
       return data;
   } catch (error) {
     toast.error('Error checking profile: ', + error.mesage)
+    return null
   }
 }
 

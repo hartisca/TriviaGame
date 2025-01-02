@@ -24,11 +24,11 @@ function Header() {
       }
     }
     document.addEventListener("click", handleClickOutside)
-
+    
     return () => {
       document.removeEventListener("click", handleClickOutside)
     }
-  }, []);  
+  }, []);
   
   const handleLogOut = async () => {
     await signOut()
@@ -43,7 +43,7 @@ function Header() {
       </div>
       {
         user ? (<div className="profileContainer">
-        <img src={profileDefault} alt="Profile picture" 
+        <img src={user.avatar_url || profileDefault} 
         className="profilePicture"
         ref={ imgRef }
         onClick={ () => setOpen(!open)} />
@@ -63,7 +63,7 @@ function Header() {
                     setOpen(false)
                   }
                    }}
-                >{menu}</li>
+                >{ menu }</li>
               ))}
             </ul>
           </div>

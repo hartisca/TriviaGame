@@ -39,28 +39,30 @@ function UserInfo() {
   
   const handleProfile = async (e) => {
     e.preventDefault();
-
+  
     if (!username.trim()) {
       toast.error("Username cannot be empty");
       return;
     }
-
+  
     try {
       let avatarUrl = avatar.url;
-
+  
       if (avatar.file) {
         avatarUrl = await uploadAvatar(user, avatar.file);
       }
-
+  
       await upsertProfile({
         user,
         username,
         avatarUrl,
       });
-
+  
       setAvatar({ ...avatar, url: avatarUrl });
+  
       setError("");
       navigate("/");
+  
     } catch (err) {
       console.error("Error creating/updating profile", err.message);
       setError(err.message || "Something went wrong");
