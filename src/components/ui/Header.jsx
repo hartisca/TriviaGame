@@ -1,12 +1,11 @@
 import { useRef, useState, useEffect } from "react";
 import profileDefault from "../../assets/usuario.png";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../supabase/supabaseClient";
-
+import { useAuth } from "../../utils/AuthContext";
 
 function Header() {
-  const menus = ["Profile", "Records", "Logout"]
-  const [user, setUser] = useState(null);
+  const menus = ["Profile", "Logout"]
+  const { user, signOut } = useAuth();
   const [ open, setOpen ] = useState(false)
 
   const menuRef = useRef(null)
@@ -29,26 +28,14 @@ function Header() {
     return () => {
       document.removeEventListener("click", handleClickOutside)
     }
-  }, []);
-
-  useEffect(() => {
-    const session = supabase.auth.getSession()
-    session.then(({data: { session } }) => {
-      if (session) {
-        setUser(session.user)
-      } else {
-        setUser(null)
-      }
-    })    
-  }, []);
+  }, []);  
   
   const handleLogOut = async () => {
-    await supabase.auth.signOut()
-    setUser(null)
+    await signOut()
     setOpen(false)
     navigate("/")
   }
-
+  
   return ( 
     <nav className="headerNav">
       <div className="titleContainer">
@@ -60,15 +47,18 @@ function Header() {
         className="profilePicture"
         ref={ imgRef }
         onClick={ () => setOpen(!open)} />
-        {open&&(
+        { open && (
           <div className="dropDownMenu">
             <ul>
               {menus.map((menu) => (
                 <li key={menu}
                 ref={ menuRef }
                 onClick={ () => {
-                  if (menu === "Logout") {
+                  if (menu === "Profile") {
+                    navigate("/usersettings")
+                  } else if (menu === "Logout") {
                     handleLogOut()
+                    navigate("/")
                   } else {
                     setOpen(false)
                   }

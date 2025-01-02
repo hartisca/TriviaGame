@@ -3,13 +3,13 @@ import { toast } from "react-toastify";
 import { supabase } from "../supabase/supabaseClient";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
-
+import ReCAPTCHA from "react-google-recaptcha";
 
 function LoginScreen() {
-
   const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState(null);
 
   const validateEmail = (email) => {
     // Expresión regular para validar el formato de correo electrónico
@@ -20,6 +20,11 @@ function LoginScreen() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    if (!captchaValue) {
+      toast.error("Please verify that you are not a robot.");
+      return;
+    }
+
     if (!validateEmail(email)) {
       toast.error("Please enter a valid email address.");
       return;
@@ -28,8 +33,9 @@ function LoginScreen() {
     try {
       setIsSubmitting(true);
       await supabase.auth.signInWithOtp({ email });
+      navigate("/")
       toast.success("Check and confirm in your email!");
-      navigate("/");
+      
     } catch (error) {
       console.error("There was an error with the magic link", error);
       toast.error("Something went wrong. Please try again.");
@@ -49,7 +55,11 @@ function LoginScreen() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-          />          
+          />
+          <ReCAPTCHA
+            sitekey={ import.meta.env.VITE_CAPTCHA_KEY } 
+            onChange={setCaptchaValue}
+          />
           <Button text={"Submit"} disabled={isSubmitting} />
         </form>
       </div>
