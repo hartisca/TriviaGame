@@ -10,11 +10,11 @@ const shuffleArray = (array) => {
 };
 
 function PlayScreen() {
-  const [questions, setQuestions] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [incorrectCount, setIncorrectCount] = useState(0);  
-  const [hardQuestion, setHardQuestion] = useState(null);
+  const [ questions, setQuestions ] = useState([]);
+  const [ currentIndex, setCurrentIndex ] = useState(0);
+  const [ correctCount, setCorrectCount ] = useState(0);
+  const [ incorrectCount, setIncorrectCount ] = useState(0);  
+  const [ hardQuestion, setHardQuestion ] = useState(null);
   const navigate = useNavigate()
   const timeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });  
 

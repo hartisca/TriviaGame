@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import profileDefault from "../assets/usuario.png"
 import { useAuth } from "../utils/AuthContext";
-import { useNavigate } from "react-router-dom";
 import { checkProfile, upsertProfile, uploadAvatar } from "../utils/Auth";
 
 function UserInfo() {
@@ -13,8 +12,7 @@ function UserInfo() {
   });
   const [ username, setUsername ] = useState("");
   const [ error, setError ] = useState("");
-  const { user } = useAuth();
-  const navigate = useNavigate()
+  const { user } = useAuth();  
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -60,8 +58,7 @@ function UserInfo() {
   
       setAvatar({ ...avatar, url: avatarUrl });
   
-      setError("");
-      navigate("/");
+      setError("");      
   
     } catch (err) {
       console.error("Error creating/updating profile", err.message);
@@ -92,11 +89,11 @@ function UserInfo() {
             placeholder="User Name"
             name="userName"
             required
-            value={username}
+            value={ username }
             onChange={ (e) => setUsername(e.target.value) }
           />
           { error && <p style={{ color: "red" }}> {error} </p> }
-          <Button text={"Submit"} />
+          <Button text={ "Submit" } />
         </form>
       </div>
     </div>
