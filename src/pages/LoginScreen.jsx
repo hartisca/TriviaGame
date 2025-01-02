@@ -1,9 +1,9 @@
 import Button from "../components/ui/Button";
 import { toast } from "react-toastify";
-import { supabase } from "../supabase/supabaseClient";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { signUpWithOtp } from "../utils/Auth";
 
 function LoginScreen() {
   const navigate = useNavigate()
@@ -12,7 +12,6 @@ function LoginScreen() {
   const [captchaValue, setCaptchaValue] = useState(null);
 
   const validateEmail = (email) => {
-    // Expresión regular para validar el formato de correo electrónico
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -30,19 +29,18 @@ function LoginScreen() {
       return;
     }
 
-    try {
-      setIsSubmitting(true);
-      await supabase.auth.signInWithOtp({ email });
-      navigate("/")
+    setIsSubmitting(true);
+
+    const success = await signUpWithOtp(email);
+    if (success) {
+      navigate("/");
       toast.success("Check and confirm in your email!");
-      
-    } catch (error) {
-      console.error("There was an error with the magic link", error);
+    } else {
       toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsSubmitting(false);
     }
+    setIsSubmitting(false);
   };
+
   return (
     <div className="login">      
       <div className="item">

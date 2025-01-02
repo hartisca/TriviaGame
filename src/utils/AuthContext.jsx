@@ -5,8 +5,8 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [ user, setUser ] = useState(null);
-  const [ session, setSession ] = useState(null);
-
+  const [ session, setSession ] = useState(null);  
+  
   useEffect(() => {
     const getInitialSession = async () => {
       const {
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         console.error("Error fetching session:", error);
       } else {
         setSession(session);
-        setUser(session?.user || null);
+        setUser(session?.user || null);       
       }
     };
 
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
 
     const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
-      setUser(session?.user || null);
+      setUser(session?.user || null);      
     });
 
     return () => {
@@ -34,13 +34,14 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
+  
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("Error signing out:", error);
     } else {
       setUser(null);
-      setSession(null);
+      setSession(null);      
     }
   };
 
