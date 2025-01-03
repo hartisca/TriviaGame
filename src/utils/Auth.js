@@ -125,3 +125,22 @@ export const uploadAvatar = async (user, file) => {
     throw error;
   }
 };
+
+export const fetchTopTimes = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('username, avatar_url, best_times')
+      .order('best_times')
+      .limit(5)
+
+      if(error){
+        throw error
+      }
+      
+      return data
+  } catch (error) {
+    console.error('Error fetching top times: ', error)
+    return []
+  }
+}
