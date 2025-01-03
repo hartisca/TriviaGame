@@ -4,6 +4,8 @@ import Count from '../components/Count';
 import Timer from '../components/Timer';
 import Marks from '../components/Marks';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../utils/AuthContext'
+import { upsertTime } from '../utils/Auth';
 
 const shuffleArray = (array) => {
   return array.sort(() => Math.random() - 0.5);
@@ -14,8 +16,9 @@ function PlayScreen() {
   const [ currentIndex, setCurrentIndex ] = useState(0);
   const [ correctCount, setCorrectCount ] = useState(0);
   const [ incorrectCount, setIncorrectCount ] = useState(0);  
-  const [ hardQuestion, setHardQuestion ] = useState(null);
+  const [ hardQuestion, setHardQuestion ] = useState(null);  
   const navigate = useNavigate()
+  const { user } = useAuth();
   const timeRef = useRef({ hours: 0, minutes: 0, seconds: 0 });  
 
   const [categories, setCategories] = useState([
@@ -40,8 +43,8 @@ function PlayScreen() {
     timeRef.current = currentTime;
   }; 
 
-  const updateCategories = async () => {    
-
+  const updateCategories = async () => {
+  
     const updatedCategories = categories.map((cat) =>
       cat.name.toLowerCase() === hardQuestion.category.toLowerCase() ||
       cat.aliases.some((alias) => alias.toLowerCase() === hardQuestion.category.toLowerCase())
@@ -49,20 +52,34 @@ function PlayScreen() {
         : cat
     );
     setCategories(updatedCategories);
-    
-    //Comprobación de si quedan categorias o no
+  
+    // Comprobación de si quedan categorías o no
     const remainingCategories = updatedCategories.filter((cat) => !cat.done);
     if (remainingCategories.length === 0) {
       const finalTime = timeRef.current;
+      const totalTimeInSeconds = finalTime.hours * 3600 + finalTime.minutes * 60 + finalTime.seconds;
+  
+      if (user && (typeof user.best_times === "undefined" || user.best_times === null || totalTimeInSeconds < user.best_times)) {
+        try {
+          await upsertTime({
+            user,
+            best_times: totalTimeInSeconds, // Actualiza el mejor tiempo
+          });
+          console.log("Best time updated successfully!");
+        } catch (error) {
+          console.error("Error updating best time:", error);
+        }
+      }
+
       const formattedTime = `${String(finalTime.hours).padStart(2, "0")}:${String(
         finalTime.minutes
       ).padStart(2, "0")}:${String(finalTime.seconds).padStart(2, "0")}`;
-
-      alert(`Has ganado! Tiempo: ${formattedTime}`);
+  
+      alert(`¡Has ganado! Tiempo: ${formattedTime}`);
       localStorage.setItem("finalTime", JSON.stringify(finalTime));
       navigate("/classification");
     }
-  }
+  };
 
   const fetchHard = async () => {  
     const hardQuestionData = await fetchHardQuestion(
@@ -84,7 +101,7 @@ function PlayScreen() {
   }
 
   const currentQuestion = questions[currentIndex];
-
+  
   const handleClick = (selectedAnswer) => {
     if (hardQuestion) {
       // Evaluar respuesta de la pregunta difícil

@@ -5,9 +5,9 @@ import { checkProfile } from "./Auth";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [ user, setUser ] = useState(null);
-  const [ session, setSession ] = useState(null);
-  
+  const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
+
   useEffect(() => {
     const getInitialSession = async () => {
       const {
@@ -19,59 +19,60 @@ export const AuthProvider = ({ children }) => {
         console.error("Error fetching session:", error);
       } else {
         setSession(session);
-        setUser(session?.user || null);
         if (session?.user) {
-          // Obtener el perfil cuando ya haya sesión
+          // Obtener el perfil solo si el usuario está autenticado
           const profile = await checkProfile(session.user);
-          if (profile) {
-            setUser({
-              ...session.user, // Mantenemos los datos del usuario
-              avatar_url: profile.avatar_url || '',
-              username: profile.username || ''
-            });
-          }
+          setUser({
+            ...session.user, // Mantenemos los datos del usuario base
+            avatar_url: profile?.avatar_url || "",
+            username: profile?.username || "",
+            best_times: profile?.best_times || null,
+          });
+        } else {
+          setUser(null); // Usuario no autenticado
         }
       }
     };
-  
+
     getInitialSession();
-  
+
+    // Suscripción a cambios en la sesión
     const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
-      setUser(session?.user || null);
       if (session?.user) {
-        // Obtener el perfil después de un cambio en la sesión
+        // Actualizar el perfil después de un cambio en la sesión
         checkProfile(session.user).then((profile) => {
-          if (profile) {
-            setUser({
-              ...session.user,
-              avatar_url: profile.avatar_url || '',
-              username: profile.username || ''
-            });
-          }
+          setUser({
+            ...session.user,
+            avatar_url: profile?.avatar_url || "",
+            username: profile?.username || "",
+            best_times: profile?.best_times || null,
+          });
         });
+      } else {
+        setUser(null); // Usuario no autenticado
       }
     });
-  
+
+    // Limpieza de la suscripción
     return () => {
       subscription.subscription.unsubscribe();
     };
   }, []);
 
-  
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("Error signing out:", error);
     } else {
       setUser(null);
-      setSession(null);      
+      setSession(null);
     }
   };
 
   return (
     <AuthContext.Provider value={{ user, session, signOut }}>
-      { children }
+      {children}
     </AuthContext.Provider>
   );
 };

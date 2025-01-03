@@ -69,6 +69,37 @@ export const upsertProfile = async ({ user, username, avatarUrl }) => {
   }
 };
 
+export const upsertTime = async ({ user, best_times }) => {
+  try {
+    // Verifica si el tiempo nuevo es mejor que el existente, o si el usuario no tiene un tiempo registrado
+    const { data: existingUser } = await supabase
+      .from("profiles")
+      .select("best_times, username")
+      .eq("id", user.id)
+      .single();
+
+    // Si no existe un tiempo o el nuevo es mejor, realiza el upsert
+    if (!existingUser || existingUser.best_times === null || best_times < existingUser.best_times) {
+      const { error } = await supabase
+        .from("profiles")
+        .upsert({
+          id: user.id,
+          best_times: best_times,
+          username: existingUser.username, // Actualiza solo el tiempo
+        });
+
+      if (error) throw new Error(error.message);
+
+      toast.success("You beat your best time mark!");
+    } else {
+      toast.info("Your current best time is better than the new one.");
+    }
+  } catch (error) {
+    toast.error("Error updating best time: " + error.message);
+    throw error;
+  }
+};
+
 export const uploadAvatar = async (user, file) => {
   try {
     const folderName = user.id;
