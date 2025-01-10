@@ -49,15 +49,25 @@
 .rules{
   margin-bottom: 40px;
 }
-/* PlayScreen css */
+.rules a{
+  color: black;
+  text-decoration: none;
+  color: rgba(31, 31, 31, 0.829);
 
+}
+.rules a:hover{
+  cursor: pointer;
+  text-decoration: underline;  
+}
+
+/* PlayScreen css */
 .container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 0px;
   width: 100%;
-  margin-left: -68px;
+  margin-top: 5rem;
 }
 
 .mainArea {
@@ -172,6 +182,7 @@
   display: flex;  
   align-items: center;
   padding: 0 20px;
+  margin-left: 3.2rem;
 
   a{
     cursor: pointer;
@@ -291,8 +302,7 @@
   display: flex;
   align-items: center;
   gap: 50px;  
-  margin-top: 7rem;
-  margin-right: 2.2rem;
+  margin-top: 5rem;  
 
   .item{
     flex: 1;
