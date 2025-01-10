@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { supabase } from "../supabase/supabaseClient";
 import { checkProfile } from "./Auth";
 
@@ -9,9 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-
     const getInitialSession = async () => {
-      
       const {
         data: { session },
         error,
@@ -22,27 +20,24 @@ export const AuthProvider = ({ children }) => {
       } else {
         setSession(session);
         if (session?.user) {
-          
           const profile = await checkProfile(session.user);
           setUser({
-            ...session.user, // Mantenemos los datos del usuario base
+            ...session.user,
             avatar_url: profile?.avatar_url || "",
             username: profile?.username || "",
             best_times: profile?.best_times || null,
           });
         } else {
-          setUser(null); // Usuario no autenticado
+          setUser(null);
         }
       }
     };
 
     getInitialSession();
 
-    // Suscripción a cambios en la sesión
     const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       if (session?.user) {
-        // Actualizar el perfil después de un cambio en la sesión
         checkProfile(session.user).then((profile) => {
           setUser({
             ...session.user,
@@ -52,11 +47,10 @@ export const AuthProvider = ({ children }) => {
           });
         });
       } else {
-        setUser(null); // Usuario no autenticado
+        setUser(null);
       }
     });
 
-    // Limpieza de la suscripción
     return () => {
       subscription.subscription.unsubscribe();
     };
@@ -79,4 +73,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export default AuthContext;

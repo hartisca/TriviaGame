@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import profileDefault from "../../assets/usuario.png";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../utils/AuthContext";
+import { useAuth } from "../../utils/useAuth";
 
 function Header() {
   const menus = ["Profile", "Logout"]

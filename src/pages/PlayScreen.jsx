@@ -4,7 +4,7 @@ import Count from '../components/Count';
 import Timer from '../components/Timer';
 import Marks from '../components/Marks';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../utils/AuthContext'
+import { useAuth } from '../utils/useAuth'
 import { upsertTime } from '../utils/Auth';
 
 const shuffleArray = (array) => {

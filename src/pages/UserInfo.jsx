@@ -2,7 +2,7 @@ import Button from "../components/ui/Button";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import profileDefault from "../assets/usuario.png"
-import { useAuth } from "../utils/AuthContext";
+import { useAuth } from "../utils/useAuth";
 import { checkProfile, upsertProfile, uploadAvatar } from "../utils/Auth";
 
 function UserInfo() {
