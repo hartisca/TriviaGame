@@ -136,6 +136,7 @@ function PlayScreen() {
         setCurrentIndex((prev) => prev + 1);
       } else {
         alert(`Juego terminado. Correctas: ${correctCount}, Incorrectas: ${incorrectCount}`);
+        navigate("/")
       }
     }
   };  

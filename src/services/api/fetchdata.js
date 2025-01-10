@@ -32,7 +32,7 @@ export const fetchHardQuestion = async (categories) => {
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
-    
+    console.log(data)
     return { ...data, category: selectedCategory };
      // Incluye la categoría seleccionada
   } catch (error) {

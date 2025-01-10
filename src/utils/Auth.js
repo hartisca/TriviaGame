@@ -23,6 +23,7 @@ export const checkProfile = async (user) =>{
   }
   
   try {
+    
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
@@ -32,22 +33,26 @@ export const checkProfile = async (user) =>{
       if (error && error.code !== "PGRST116") { // Código PGRST116: "No rows found"
         throw new Error(error.message);
       }
-      
+
+      if (!data || data.length === 0) {
+        return null; // No se encontró el perfil
+      }      
       return data;
   } catch (error) {
-    toast.error('Error checking profile: ', + error.mesage)
+    toast.error('Error checking profile: ', + error.message)
     return null
   }
 }
 
 export const upsertProfile = async ({ user, username, avatarUrl }) => {
+  
   try {
     const { data: existingUser } = await supabase
       .from("profiles")
       .select("*")
       .eq("username", username)
-      .single();
-
+      .single()
+      
     if (existingUser && existingUser.id !== user.id) {
       throw new Error("Username is already taken.");
     }

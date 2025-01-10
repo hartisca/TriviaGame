@@ -9,7 +9,9 @@ export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
+
     const getInitialSession = async () => {
+      
       const {
         data: { session },
         error,
@@ -20,7 +22,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         setSession(session);
         if (session?.user) {
-          // Obtener el perfil solo si el usuario está autenticado
+          
           const profile = await checkProfile(session.user);
           setUser({
             ...session.user, // Mantenemos los datos del usuario base
